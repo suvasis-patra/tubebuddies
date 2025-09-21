@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  username String?
+  email String @unique
+  password String?
+  avatarUrl String?
+  googleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roomsHosted Room[] @relation("HostRooms")
+  participants Participant[]
+  messages Message[]
+}
+
+model Room{
+  id String @id @default(uuid())
+  isPublic Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hostId String
+  host User @relation("HostRooms",fields: [hostId],references: [id])
+  participants Participant[]
+  messages Message[]
+  videos Video[]
+}
+
+model Participant{
+  id String @id @default(uuid())
+  joinedAt DateTime @default(now())
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  roomId String
+  room Room @relation(fields: [roomId],references: [id])
+
+  role Role @default(VIEWER)
+}
+
+model Message{
+  id String @id @default(uuid())
+  content String
+  createdAt DateTime @default(now())
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  roomId String
+  room Room @relation(fields: [roomId],references: [id])
+}
+
+model Video{
+  id String @id @default(uuid())
+  youtubeId String
+  addedAt DateTime @default(now())
+
+  roomId String
+  room Room @relation(fields: [roomId],references: [id])
+}
+
+enum Role {
+  HOST
+  CO_HOST
+  VIEWER
+}
