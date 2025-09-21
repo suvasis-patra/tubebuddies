@@ -17,7 +17,10 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "@tubebuddies/db": "*",
+    "@tubebuddies/auth": "*",
+    "@tubebuddies/schemas": "*"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
