@@ -1,0 +1,26 @@
+{
+  "name": "@tubebuddies/queue",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "exports": {
+    "./lib": {
+      "types": "./src/lib.ts",
+      "default": "./dist/lib.js"
+    },
+    "./message-queue": {
+      "types": "./src/messageQueue.ts",
+      "default": "./dist/messageQueue.js"
+    }
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "bullmq": "^5.58.7",
+    "ioredis": "^5.7.0"
+  }
+}
